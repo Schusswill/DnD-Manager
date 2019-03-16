@@ -1,5 +1,6 @@
 package items;
+import java.sql.*;
 
-public class wepons {
-sfd
+public class wepons extends item{
+
 }
