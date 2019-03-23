@@ -9,4 +9,8 @@ public class Item {
 		this.id = id;
 		this.name = name;
 	}
+	
+	public String toString() {
+		return name;
+	}
 }

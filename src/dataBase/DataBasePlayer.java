@@ -28,36 +28,49 @@ public class DataBasePlayer {
 	
 	public static String[] getPlayersName() throws SQLException {
 		ResultSet rs = connect("select * from players");
-		int fetchSize = rs.getFetchSize() + 1;
+		int fetchSize = 0;
+		if(rs.last()) {
+			fetchSize = rs.getRow();
+			rs.beforeFirst();
+		}
 		String[] names = new String[fetchSize];
 		int i = 0;
 		while(rs.next()) {
 			String name = rs.getString(3);
 			System.out.println(name);
 			
-			names[i++] = name;
-			System.out.println(names[i-1]);
+			names[i] = name;
+			i++;
+//			System.out.println(names[i-1]);
 		}
 		rs.close();
 		return names;
 	}
 	
 	public static Player loadPlayer(String playerName) throws SQLException, Exception{
-		ResultSet rspc = connect("SELECT * from players "
-									+ "WHERE players.name = \"%" + playerName + "%\";");
-		ResultSet rsi = connect("SELECT items.* from players "
-									+ "JOIN player_items"
-										+ " on player_items.id_player = players.idplayers "
-									+ "JOIN items"
-										+ " on items.id_items = player_items.id_items"
-									+ "Where players.name = \"%" + playerName + "%\";");
+		ResultSet rspc = connect("SELECT * from players WHERE players.name = \"" + playerName + "\";");
+		ResultSet rsi = connect("SELECT items.* from players JOIN player_items on player_items.id_player = players.idplayers JOIN items on items.id_items = player_items.id_items Where players.name = \"" + playerName + "\";");
 		if(rspc.getFetchSize() > 0)
 			throw new Exception();
 		ArrayList<Item> items = new ArrayList<Item>();
+		rspc.next();
 		while(rsi.next()) {
 			 items.add(new Item(rsi.getInt(1),rsi.getString(2)));
 		}
-		Player pc = new Player(rspc.getInt(1), rspc.getString(3),rspc.getInt(4), items);
+		Player pc = new Player(rspc.getInt(1), rspc.getString(3),rspc.getInt(5), items);
+		rsi.close();
+		rspc.close();
 		return pc;
 	}
+	
+	public static Player[] getPlayers() throws SQLException, Exception {
+		String[] names = getPlayersName();
+		Player[] players = new Player[names.length];
+		int i = 0;
+		for(String name : names) {
+			players[i++] = loadPlayer(name);
+		}
+		return players;
+	}
+	
 }
