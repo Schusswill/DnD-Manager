@@ -55,6 +55,8 @@ public abstract class Player {
 		 */
 		private static final long serialVersionUID = 1L;
 
+		
+		
 		public PlayerCreationWindow() {
 			
 		}
