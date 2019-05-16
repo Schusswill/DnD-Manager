@@ -1,17 +1,14 @@
-package userInterface;
-
-import java.sql.SQLException;
+package ux;
 
 import dataBase.DataBasePlayer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import objects.Player;
+import model.Player;
 
 public class PlayerCatalogView extends VBox{
 	
@@ -30,9 +27,6 @@ public class PlayerCatalogView extends VBox{
 			pane.getChildren().add(setUpTable(playersList));
 			this.getChildren().addAll(pane);
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,10 +46,7 @@ public class PlayerCatalogView extends VBox{
 		TableColumn<Player, Integer> levelColumn = new TableColumn<>("level");
 		levelColumn.setMinWidth(100);
 		levelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
-		
-		playerTable.setItems(playersList);
-		playerTable.getColumns().addAll(nameColumn, levelColumn);
-		
+				
 		return playerTable;
 	}
 

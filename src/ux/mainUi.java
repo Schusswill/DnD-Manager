@@ -1,4 +1,4 @@
-package userInterface;
+package ux;
 
 import java.awt.EventQueue;
 
