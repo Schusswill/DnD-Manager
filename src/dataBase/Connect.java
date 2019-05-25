@@ -1,9 +1,11 @@
 package dataBase;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.sql.Connection;
 
 public class Connect {
@@ -39,5 +41,11 @@ public class Connect {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public PreparedStatement prepareStatement(String query) throws SQLException {
+
+			return con.prepareStatement(query);
+
 	}
 }

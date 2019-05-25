@@ -2,35 +2,31 @@ package ux;
 
 import dataBase.Connect;
 import dataBase.DataBasePlayer;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import model.Player;
 
 public class PlayerCatalogView extends VBox{
 	
+	TableView<Player> playerTable = new TableView<Player>();
 	
 	public PlayerCatalogView(){
 		try {
-			Connect con = new Connect();
-			Player[] players = DataBasePlayer.getPlayers(con);
-			con.close();
+			Player[] players = DataBasePlayer.getPlayers(mainUi.getConnection());
 			
-			ObservableList<SimplePlayer> playersList = FXCollections.observableArrayList();
+			ObservableList<Player> playersList = FXCollections.observableArrayList();
 			for(Player player : players) {
 				System.out.println(player.toString());
-				playersList.add(new SimplePlayer(player));
+				playersList.add(player);
 			}
 			HBox hb = new HBox();
 			hb.getChildren().addAll(setUpEditPlayerButton(),setUpNewPlayerButton());
@@ -47,7 +43,9 @@ public class PlayerCatalogView extends VBox{
 		addButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent e) {
-				System.out.println("start Edit player view");
+				Player editPlayer = playerTable.getSelectionModel().getSelectedItem();
+				System.out.println("start Edit player view for " + editPlayer.getName());
+				mainUi.setScene(new Scene(new PlayerEditView(editPlayer)));
 			}
 		});
 		return addButton;
@@ -58,58 +56,32 @@ public class PlayerCatalogView extends VBox{
 			@Override
 			public void handle (ActionEvent e) {
 				System.out.println("start new player view");
+				mainUi.setScene(new Scene(new PlayerEditView()));
 			}
 		});
 		return addButton;
 	}
 
-	private TableView<SimplePlayer> setUpTable(ObservableList<SimplePlayer> playersList) {
-		TableView<SimplePlayer> playerTable = new TableView<SimplePlayer>();
+	private TableView<Player> setUpTable(ObservableList<Player> playersList) {
 		
-		TableColumn<SimplePlayer, String> nameCol = new TableColumn<SimplePlayer, String>("Name");
+		
+		TableColumn<Player, String> nameCol = new TableColumn<Player, String>("Name");
 		nameCol.setMinWidth(100);
 		nameCol.setCellValueFactory(
-				new PropertyValueFactory<SimplePlayer, String>("name"));
+				new PropertyValueFactory<Player, String>("name"));
 		
-		TableColumn<SimplePlayer, Integer> levelCol = new TableColumn<SimplePlayer, Integer>("level");
+		TableColumn<Player, Integer> levelCol = new TableColumn<Player, Integer>("level");
 		levelCol.setMinWidth(100);
 		levelCol.setCellValueFactory(
-				new PropertyValueFactory<SimplePlayer, Integer>("level"));
+				new PropertyValueFactory<Player, Integer>("level"));
 		
-		TableColumn<SimplePlayer, String> classCol = new TableColumn<SimplePlayer, String>("Class");
+		TableColumn<Player, String> classCol = new TableColumn<Player, String>("Class");
 		classCol.setMinWidth(100);
 		classCol.setCellValueFactory(
-				new PropertyValueFactory<SimplePlayer, String>("pcClass"));
+				new PropertyValueFactory<Player, String>("pcClassName"));
 		
 		playerTable.setItems(playersList);
 		playerTable.getColumns().addAll(nameCol, levelCol, classCol);
 		return playerTable;
 	}
-	
-	public static class SimplePlayer{
-		private final SimpleStringProperty name;
-		private final SimpleIntegerProperty level;
-		private final SimpleStringProperty pcClass;
-		
-		private SimplePlayer(Player player) {
-			this.name = new SimpleStringProperty(player.getName());
-			this.level = new SimpleIntegerProperty(player.getLevel());
-			this.pcClass = new SimpleStringProperty(player.getPcclass().getName());
-			System.out.println(pcClass.toString());
-		}
-		
-		public String getName() {
-			return name.get();
-		}
-		
-		public Integer getLevel() {
-			return level.get();
-		}
-		
-		public String getPcClass() {
-			return pcClass.get();
-		}
-		
-	}
-
 }

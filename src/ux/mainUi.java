@@ -2,6 +2,7 @@ package ux;
 
 import java.awt.EventQueue;
 
+import dataBase.Connect;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,6 +12,7 @@ public class mainUi extends Application{
 
 	static Stage window;
 	static Scene mainScene;
+	static Connect con = new Connect();
 
 	public static void main(String[]args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -28,7 +30,6 @@ public class mainUi extends Application{
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		
 		window = stage;
 		window.setHeight(600);
 		window.setWidth(800);
@@ -49,6 +50,10 @@ public class mainUi extends Application{
 	
 	public static void returnToMain() {
 		window.setScene(mainScene);
+	}
+	
+	public static Connect getConnection() {
+		return con;
 	}
 
 }

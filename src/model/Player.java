@@ -9,6 +9,8 @@ public class Player{
 	private int id;
 	private String name;
 	private Integer level;
+	private Integer maxHealth;
+	private String pcClassName;
 	private PlayerClass pcclass;
 	private ArrayList<Item> items;
 	
@@ -21,6 +23,8 @@ public class Player{
 		this.name = name;
 		this.level = level;
 		this.pcclass = new PlayerClass(pcclass);
+		this.pcClassName = this.pcclass.getName();
+		this.maxHealth = maxHealth;
 		this.items = new ArrayList<Item>();
 	}
 	
@@ -64,13 +68,26 @@ public class Player{
 	public PlayerClass getPcclass() {
 		return pcclass;
 	}
+	
+	public String getPcClassName() {
+		return pcClassName;
+	}
 
 	public void setPcclass(PlayerClass pcclass) {
 		this.pcclass = pcclass;
+		this.pcClassName = pcclass.getName();
 	}
 
 	public void setItems(ArrayList<Item> items) {
 		this.items = items;
+	}
+
+	public Integer getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(Integer maxHealth) {
+		this.maxHealth = maxHealth;
 	}
 
 }
