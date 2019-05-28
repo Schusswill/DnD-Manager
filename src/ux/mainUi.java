@@ -1,8 +1,8 @@
 package ux;
 
 import java.awt.EventQueue;
+import java.sql.Connection;
 
-import dataBase.Connect;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -12,7 +12,7 @@ public class mainUi extends Application{
 
 	static Stage window;
 	static Scene mainScene;
-	static Connect con = new Connect();
+	static Connection con;
 
 	public static void main(String[]args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -52,7 +52,7 @@ public class mainUi extends Application{
 		window.setScene(mainScene);
 	}
 	
-	public static Connect getConnection() {
+	public static Connection getConnection() {
 		return con;
 	}
 

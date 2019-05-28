@@ -1,6 +1,6 @@
 package ux;
 
-import dataBase.Connect;
+import dataBase.ConPool;
 import dataBase.DataBasePlayer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

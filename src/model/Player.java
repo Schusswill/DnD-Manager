@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import dataBase.DataBasePlayer;
+import ux.mainUi;
 
 public class Player{
 
@@ -36,7 +37,7 @@ public class Player{
 	
 	public ArrayList<Item> getItems(){
 		if (items.size() == 0) {
-			items = DataBasePlayer.populateItems(this.name);
+			items = DataBasePlayer.populateItems(mainUi.getConnection(),this);
 		}
 		return this.items;
 	}
